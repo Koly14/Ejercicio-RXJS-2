@@ -1,0 +1,69 @@
+@defer (when movieList){
+
+  <div class="row p-2">
+    <div class="col-6">
+      <div class="d-flex align-content-center justify-content-center text-center">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <div class="btn btn-dark">
+          <fa-icon class="text-center align-content-center justify-content-center" [icon]="faMagnifyingGlass"></fa-icon>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 d-flex align-content-center justify-content-center">
+      <ngb-pagination [collectionSize]="total"
+                      [(page)]="page"
+                      (pageChange)="loadMovies()"
+                      [rotate]="true"
+                      [pageSize]="10">
+      </ngb-pagination>
+    </div>
+
+  </div>
+  <div class="row p-2">
+    @for (movie of movieList; track movie._id) {
+
+      <div class="col-3 p-2">
+        <div class="card">
+          <img src="{{movie.poster}}" class="card-img-top" alt="{{movie.title}}">
+          <div class="card-body">
+            <h5 class="card-title">{{movie.title}}</h5>
+            <p class="card-text">
+              {{movie.plot}}
+            </p>
+            <p class="card-text"><strong>{{movie.director}}</strong></p>
+            <div class="badge bg-primary">
+              {{movie.year}}
+            </div>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group">
+              <div class="btn btn-outline-primary" [routerLink]="'/movie-edit/'+movie._id">
+                <fa-icon [icon]="faFileEdit"></fa-icon> Edit
+              </div>
+              <div class="btn btn-outline-success" (click)="addToCart(movie)">
+                <fa-icon [icon]="faCartShopping"></fa-icon> Add Cart
+              </div>
+              <div class="btn btn-outline-danger" (click)="delete(movie._id)">
+                <fa-icon [icon]="faTrash"></fa-icon> Delete
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    }
+  </div>
+
+  <!--TOAST-->
+  <ngb-toast class="toast-container {{toast.color}} p-1 position-fixed bottom-50 start-50" style="z-index: 1200">
+    {{toast.body}}
+  </ngb-toast>
+
+} @placeholder () {
+  <div class="p-4 d-flex justify-content-center align-content-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+}

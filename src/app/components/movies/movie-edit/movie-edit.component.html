@@ -1,0 +1,148 @@
+@defer (when editar){
+
+  <h2>{{id? "Editar":"Crear"}}</h2>
+
+
+  <div class="row">
+    <div class="col-6 p-2">
+      <!--FORM-->
+      <form [formGroup]="formMovie" (ngSubmit)="onSubmit()">
+
+        <!--TITLE-->
+        <div class="form-floating mb-3">
+          <input class="form-control" required formControlName="title"
+                 type="text" placeholder="title" id="title">
+          <label for="title">Title</label>
+        </div>
+        <!--VALIDATION-->
+        @if(title.invalid && (title.dirty || title.touched)){
+          @if(title.errors["required"]){
+            <div class="alert alert-danger">
+              <h4>Titulo obligado</h4>
+            </div>
+          }
+          @if (title.errors["minlength"]){
+            <div class="alert alert-danger">
+              <h4>Mínimo 2 carácteres</h4>
+            </div>
+          }
+        }
+
+        <!--YEAR-->
+        <div class="form-floating mb-3">
+          <input class="form-control" required formControlName="year"
+                 type="number" placeholder="year" id="year">
+          <label for="year">Year</label>
+        </div>
+        <!--VALIDATION-->
+        @if(year.invalid && (year.dirty || year.touched)){
+          @if(year.errors["required"]){
+            <div class="alert alert-danger">
+              <h4>year obligado</h4>
+            </div>
+          }
+          @if (year.errors["min"]){
+            <div class="alert alert-danger">
+              <h4>Mínimo año 1900</h4>
+            </div>
+          }
+          @if (year.errors["max"]){
+            <div class="alert alert-danger">
+              <h4>Máximo año actual</h4>
+            </div>
+          }
+        }
+
+        <!--DIRECTOR-->
+        <div class="form-floating mb-3">
+          <input class="form-control" required formControlName="director"
+                 type="text" placeholder="director" id="director">
+          <label for="director">Director</label>
+        </div>
+        <!--VALIDATION-->
+        @if(director.invalid && (director.dirty || director.touched)){
+          @if(director.errors["required"]){
+            <div class="alert alert-danger">
+              <h4>Director obligado</h4>
+            </div>
+          }
+          @if (director.errors["minlength"]){
+            <div class="alert alert-danger">
+              <h4>Mínimo 5 carácteres</h4>
+            </div>
+          }
+        }
+
+        <!--PLOT-->
+        <div class="form-floating mb-3">
+      <textarea class="form-control" required formControlName="plot"
+                type="text" placeholder="plot" id="plot"></textarea>
+          <label for="plot">Plot</label>
+        </div>
+        <!--VALIDATION-->
+        @if(plot.invalid && (plot.dirty || plot.touched)){
+          @if(plot.errors["required"]){
+            <div class="alert alert-danger">
+              <h4>Plot obligado</h4>
+            </div>
+          }
+          @if (plot.errors["minlength"]){
+            <div class="alert alert-danger">
+              <h4>Mínimo 10 carácteres</h4>
+            </div>
+          }
+        }
+
+        <!--POSTER-->
+        <div class="form-floating mb-3">
+          <input class="form-control" required formControlName="poster"
+                 type="text" placeholder="poster" id="poster">
+          <label for="poster">Poster</label>
+        </div>
+        <!--VALIDATION-->
+        @if(poster.invalid && (poster.dirty || poster.touched)){
+          @if(poster.errors["required"]){
+            <div class="alert alert-danger">
+              <h4>Poster obligado</h4>
+            </div>
+          }
+        }
+
+        <!--INPUT-->
+        <div class="text-center">
+          <div class="btn p-2">
+            <button type="submit" class="btn btn-outline-primary">{{id? "Editar" : "Crear"}}</button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+    <div class="col-6 p-2">
+
+      <div class="card">
+        <img src="{{poster.value? poster.value:'./img/noImage.jpg'}}" class="card-img-top" alt="{{title?.value}}">
+        <div class="card-body">
+          <h5 class="card-title">{{title?.value}}</h5>
+          <p class="card-text">
+            {{plot?.value}}
+          </p>
+          <p class="card-text"><strong>{{director?.value}}</strong></p>
+          <div class="badge bg-primary">
+            {{year?.value}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+} @placeholder (){
+
+  <div class="p-4 d-flex justify-content-center align-content-center">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+}
