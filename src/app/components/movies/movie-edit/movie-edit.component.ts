@@ -89,7 +89,7 @@ export class MovieEditComponent implements OnInit{
         {
           next: value => {
             console.log(value);
-            this.router.navigateByUrl("movie-list");
+            this.router.navigateByUrl("/movie-list");
           },
           error: err => console.error(err),
           complete: () => console.log("editado con exito")
@@ -102,7 +102,7 @@ export class MovieEditComponent implements OnInit{
         {
           next: value => {
             console.log(value);
-            this.router.navigateByUrl("movie-list");
+            this.router.navigateByUrl("/movie-list");
           },
           error: err => console.log(err),
           complete: () => console.log("insertado con exito")

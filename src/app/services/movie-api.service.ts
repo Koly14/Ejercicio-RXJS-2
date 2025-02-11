@@ -34,7 +34,7 @@ export class MovieApiService {
    * Add - Edit - Delete --> Tienen el mismo tipo de interface (status, message)
    */
 
-  // ADD MOVIE (El objeto)
+  // ADD MOVIE (Solo el objeto)
   insertMovie(movie:Movie):Observable<StatusMessage>{
     return this.http.post<StatusMessage>(this.baseUrl,movie);
   }

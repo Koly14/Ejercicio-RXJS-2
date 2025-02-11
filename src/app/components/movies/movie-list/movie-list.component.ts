@@ -6,6 +6,7 @@ import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 import {faCartShopping, faFileEdit, faMagnifyingGlass, faTrash} from "@fortawesome/free-solid-svg-icons";
 import {NgbPagination, NgbToast} from "@ng-bootstrap/ng-bootstrap";
 import {Router, RouterLink} from "@angular/router";
+import {CartService} from "../../../services/cart.service";
 
 @Component({
   selector: 'app-movie-list',
@@ -23,6 +24,7 @@ export class MovieListComponent {
 
   private readonly movieService:MovieApiService = inject(MovieApiService);
   private readonly searchService:SearchService = inject(SearchService);
+  private readonly cartService:CartService = inject(CartService);
   private readonly router:Router = inject(Router);
 
   movieList!:Movie[];
@@ -44,7 +46,7 @@ export class MovieListComponent {
 
   constructor() {
     this.loadMovies();
-
+    this.loadSearch();
   }
 
   protected loadMovies() {
@@ -71,21 +73,44 @@ export class MovieListComponent {
     },200)
   }
 
-
-  addToCart(movie: Movie) {
-
-  }
-
   delete(_id: string) {
     this.movieService.deleteMovie(_id).subscribe(
       {
         next: value => {
-          console.log(value);
-          this.router.navigateByUrl("movie-list");
+          this.toastCall("Elemento eliminado", "bg-danger");
+          this.router.navigateByUrl("/movie-list");
         },
         error:err => console.error(err),
         complete:() => console.log("ok"),
       }
     )
   }
+
+  // SEARCH
+  buscar(event:any){
+    const query = event.target.value;
+    if (query){
+      this.searchService.search(query);
+    } else {
+      this.loadMovies();
+    }
+  }
+
+  private loadSearch() {
+    this.searchService.start().subscribe(
+      {
+        next: value => {
+          this.movieList = value;
+        },
+        error:err => console.log(err.message),
+        complete:() => console.log("value"),
+      }
+    )
+  }
+
+  // CARRITO
+  addToCart(movie: Movie) {
+    this.cartService.addToCart(movie);
+  }
+
 }
